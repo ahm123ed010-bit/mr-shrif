@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>المؤرخ — منصة مستر شريف</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--font-display:'Amiri',serif;--font-body:'IBM Plex Sans Arabic',sans-serif}
+:root {
+  --navy: #0f1f3d;
+  --navy-2: #182c52;
+  --gold: #c9a24b;
+  --gold-soft: #efe3c4;
+  --paper: #f7f5ef;
+  --card: #ffffff;
+  --ink: #1b2236;
+  --muted: #6b7388;
+  --line: #e3dfd2;
+  --danger: #b3382c;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+}
+h1, h2, h3 { font-family: var(--font-display), serif; margin: 0; line-height: 1.3; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* ---------- Login ---------- */
+.login { min-height: 100dvh; display: grid; grid-template-columns: 1.1fr 1fr; }
+.login-brand {
+  background: var(--navy); color: #fff; padding: 56px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.login-brand h1 { font-size: clamp(64px, 9vw, 120px); color: var(--gold); font-weight: 700; }
+.login-brand p { font-size: 20px; max-width: 22ch; color: #d9deea; margin: 0; }
+.login-brand small { color: #8f9bb8; }
+.login-form-wrap { display: grid; place-items: center; padding: 32px; }
+.login-form { width: 100%; max-width: 380px; display: grid; gap: 18px; }
+.login-form h2 { font-size: 30px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 600; font-size: 15px; }
+.field input {
+  font: inherit; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink); min-height: 48px;
+}
+.field input:focus { border-color: var(--gold); }
+.btn {
+  font: inherit; font-weight: 600; min-height: 48px; border: 0; border-radius: 8px;
+  background: var(--navy); color: #fff; cursor: pointer; padding: 0 20px;
+  transition: background .15s;
+}
+.btn:hover { background: var(--navy-2); }
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); min-height: 40px; }
+.btn-ghost:hover { background: var(--gold-soft); }
+.error { color: var(--danger); font-size: 14px; margin: 0; min-height: 22px; }
+
+/* ---------- Admin shell ---------- */
+.shell { min-height: 100dvh; display: grid; grid-template-columns: 250px 1fr; }
+.sidebar {
+  background: var(--navy); color: #cfd6e6; padding: 28px 20px;
+  display: flex; flex-direction: column; gap: 28px;
+  position: sticky; top: 0; height: 100dvh;
+}
+.sidebar .brand { font-family: var(--font-display), serif; font-size: 34px; color: var(--gold); font-weight: 700; }
+.sidebar nav { display: grid; gap: 4px; }
+.nav-item { padding: 10px 14px; border-radius: 8px; font-size: 16px; display: flex; justify-content: space-between; }
+.nav-item.active { background: var(--navy-2); color: #fff; border-inline-start: 3px solid var(--gold); }
+.nav-item.soon { color: #7d89a6; }
+.nav-item.soon small { font-size: 12px; }
+.sidebar-foot { margin-top: auto; display: grid; gap: 10px; font-size: 14px; }
+.sidebar-foot .btn-ghost { color: #fff; border-color: #34466b; }
+.sidebar-foot .btn-ghost:hover { background: var(--navy-2); }
+
+.main { padding: 32px clamp(16px, 4vw, 48px); max-width: 1200px; width: 100%; }
+.main > header { margin-bottom: 24px; }
+.main > header h1 { font-size: 32px; }
+.main > header p { margin: 4px 0 0; color: var(--muted); }
+
+/* the one memorable element: today band */
+.today {
+  background: var(--navy); color: #fff; border-radius: 14px; padding: 28px 32px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 28px;
+}
+.today div + div { border-inline-start: 1px solid #2a3d63; padding-inline-start: 24px; }
+.today .num { font-family: var(--font-display), serif; font-size: clamp(40px, 6vw, 64px); color: var(--gold); line-height: 1; }
+.today .lbl { color: #cfd6e6; margin-top: 6px; }
+
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-bottom: 28px;
+  border-block: 1px solid var(--line); }
+.facts div { padding: 18px 8px; }
+.facts div + div { border-inline-start: 1px solid var(--line); padding-inline-start: 20px; }
+.facts b { font-size: 26px; display: block; font-family: var(--font-display), serif; }
+.facts span { color: var(--muted); font-size: 14px; }
+
+.grid2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
+.panel h2 { font-size: 22px; margin-bottom: 12px; }
+.panel ul { list-style: none; padding: 0; margin: 0; }
+.panel li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.panel li small { display: block; color: var(--muted); }
+.empty { color: var(--muted); padding: 12px 0; }
+
+.bars { display: flex; align-items: flex-end; gap: 10px; height: 160px; padding-top: 8px; }
+.bar { flex: 1; display: grid; gap: 6px; justify-items: center; align-content: end; height: 100%; font-size: 13px; color: var(--muted); }
+.bar i { display: block; width: 100%; background: var(--gold); border-radius: 4px 4px 0 0; min-height: 3px; }
+.bar b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 860px) {
+  .login { grid-template-columns: 1fr; }
+  .login-brand { padding: 28px; gap: 12px; }
+  .login-brand h1 { font-size: 56px; }
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 16px; gap: 12px; }
+  .sidebar nav { display: none; }
+  .sidebar-foot { margin: 0 auto 0 0; margin-inline-start: auto; grid-auto-flow: column; align-items: center; }
+  .today { grid-template-columns: 1fr; padding: 22px; }
+  .today div + div { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid #2a3d63; padding-top: 16px; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .facts div:nth-child(3) { border-inline-start: 0; padding-inline-start: 8px; }
+  .grid2 { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ---------- حضور QR + انضباط ---------- */
+.att-grid{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:26px;align-items:start}
+.qrcard{background:#fff;border-radius:16px;padding:14px;position:relative;width:min(100%,420px);margin:0 auto 12px}
+.qrcard img{display:block;width:100%;height:auto}
+.scanline{position:absolute;inset-inline:18px;top:20px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 14px var(--gold);animation:sweep 2.2s ease-in-out infinite alternate}
+@keyframes sweep{to{top:calc(100% - 23px)}}
+.qr-full{position:fixed;inset:0;z-index:50;background:#fff;display:grid;place-items:center;padding:20px;cursor:zoom-out}
+.qr-full .qrcard{width:min(92vmin,900px);box-shadow:none;margin:0}
+.livedot{display:inline-flex;align-items:center;gap:8px;color:#1f6b34;font-weight:600;margin:6px 0 12px}
+.livedot i{width:10px;height:10px;border-radius:50%;background:#1f6b34;animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #1f6b34}100%{box-shadow:0 0 0 10px transparent}}
+.bigcount{font:700 54px/1 var(--font-display),serif;color:var(--gold)}
+.prog{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:10px 0 14px}
+.prog i{display:block;height:100%;background:var(--gold);transition:width .6s}
+.stline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.notice{padding:12px 14px;border-radius:10px;background:var(--gold-soft);margin:12px 0}
+.chk{display:flex;gap:8px;align-items:center;margin:12px 0}
+.row{display:flex;gap:8px;margin-bottom:8px}
+.sel{min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:inherit;color:inherit}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.hint{color:var(--muted);font-size:14px}
+.badge.warn{background:var(--gold-soft);color:#6b4e0e}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+@media(max-width:860px){.att-grid,.g2{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.scanline,.livedot i{animation:none}}
+.page-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-head h1 { font-size: 32px; }
+.page-head p { margin: 4px 0 0; color: var(--muted); }
+.link { color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--gold); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+table { width: 100%; border-collapse: collapse; min-width: 640px; }
+th, td { text-align: start; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-weight: 600; color: var(--muted); font-size: 14px; background: var(--paper); }
+tbody tr:last-child td { border-bottom: 0; }
+td small { display: block; color: var(--muted); }
+
+.badge { padding: 2px 10px; border-radius: 999px; font-size: 13px; }
+.badge.ok { background: #e3f1e6; color: #1f6b34; }
+.badge.off { background: #f3e1de; color: var(--danger); }
+
+.btn-sm { min-height: 36px; padding: 0 12px; font-size: 14px; }
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+details.add { position: relative; }
+details.add > summary { list-style: none; display: inline-flex; align-items: center; cursor: pointer; }
+details.add > summary::-webkit-details-marker { display: none; }
+.form-grid {
+  position: absolute; inset-inline-end: 0; z-index: 5; margin-top: 8px; width: min(420px, 92vw);
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px;
+  display: grid; gap: 12px; box-shadow: 0 12px 32px rgba(15, 31, 61, .14);
+}
+
+.search { display: flex; gap: 8px; margin-bottom: 16px; max-width: 460px; }
+.search input, .inline-form select {
+  font: inherit; flex: 1; min-height: 40px; padding: 0 12px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--card);
+}
+.inline-form { display: flex; gap: 8px; margin-bottom: 8px; }
+.member { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.member small { display: inline; margin-inline-start: 8px; }
+.at{max-width:520px;margin:0 auto;padding:18px 16px 40px;display:grid;gap:16px}
+.at-head{background:var(--navy);color:#fff;border-radius:16px;padding:20px 22px}
+.at-head h1{font-size:30px;color:var(--gold)}.at-head p{margin:4px 0 0;color:#cfd6e6;font-size:15px}
+.at-chips{display:flex;gap:8px;flex-wrap:wrap}
+.at-chip{padding:4px 12px;border-radius:999px;font-size:14px;background:#e3f1e6;color:#1f6b34}
+.at-chip.off{background:#f3e1de;color:#b3382c}.at-chip.q{background:var(--gold-soft);color:#6b4e0e}
+.at-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px}
+.at-cam{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:1}
+.at-cam video{width:100%;height:100%;object-fit:cover;display:block}
+.at-cam::after{content:"";position:absolute;inset:14%;border:3px solid var(--gold);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.35);pointer-events:none}
+.at-field{display:grid;gap:6px}.at-field label{font-weight:600}
+.at-field input{font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:8px;min-height:48px;background:var(--card);color:var(--ink)}
+.at-res{display:grid;gap:8px;list-style:none;padding:0;margin:0}
+.at-res li{padding:10px 12px;border-radius:10px;font-size:15px}
+.at-res li.ok{background:#e3f1e6;color:#1f6b34}.at-res li.bad{background:#f8e4e1;color:#b3382c}
+.at-res small{display:block;opacity:.8}
+
+/* ---------- إضافات النسخة C# ---------- */
+:root { --font-body: "IBM Plex Sans Arabic", system-ui, sans-serif; --font-display: "Amiri", Georgia, serif; --ok: #1f6b34; --okbg: #e3f1e6; --offbg: #f3e1de; }
+.flash { padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; }
+.flash.ok { background: var(--okbg); color: var(--ok); }
+.flash.bad { background: var(--offbg); color: var(--danger); }
+.field select, .field textarea { font: inherit; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); min-height: 48px; width: 100%; }
+.field textarea { min-height: 96px; resize: vertical; }
+.field input[type=file] { padding: 10px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.stack { display: grid; gap: 14px; max-width: 560px; }
+.stack-wide { display: grid; gap: 14px; }
+.two { display: grid; grid-template-columns: 1fr 120px; gap: 10px; }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin-top: 22px; }
+.hwc { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 16px; display: grid; gap: 8px; align-content: start; }
+.hwc small { color: var(--muted); display: block; }
+.vcard { border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+.vcard video { width: 100%; aspect-ratio: 16/9; display: block; background: var(--navy); }
+.vcard > div { padding: 12px 14px; }
+.vcard small { color: var(--muted); display: block; }
+.btn-link { display: inline-flex; align-items: center; text-decoration: none; }
+.inline { display: inline; }
+.inline-grade { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.inline-grade input { font: inherit; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); }
+.inline-grade input[name=score] { width: 90px; }
+.inline-grade input[name=feedback] { flex: 1; min-width: 160px; }
+.score-in { width: 90px; font: inherit; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); }
+.langbar { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+.langbar a { padding: 2px 10px; border-radius: 999px; border: 1px solid #34466b; color: #cfd6e6; }
+.langbar a.on { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+.nav-item.active { background: var(--navy-2); color: #fff; border-inline-start: 3px solid var(--gold); }
+.sidebar-foot a.small { color: #cfd6e6; font-size: 14px; text-decoration: underline; }
+.facts-3 { grid-template-columns: repeat(3, 1fr); }
+.up-prog { height: 8px; background: var(--line); border-radius: 8px; overflow: hidden; display: none; }
+.up-prog i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .2s; }
+.creds { background: var(--gold-soft); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; white-space: pre-line; }
+.unread { border-inline-start: 4px solid var(--gold); }
+.note { padding: 12px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); margin-bottom: 10px; }
+.note.discipline { background: var(--offbg); border-color: transparent; }
+.sel-wide { width: 100%; }
+.wk li b { display: block; margin-bottom: 4px; }
+.err-box { color: var(--danger); min-height: 22px; font-size: 14px; margin: 0; }
+.lang-login { position: absolute; top: 14px; inset-inline-end: 16px; }
+.lang-login a { padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; }
+.nav-toggle { display: none; }
+@media (max-width: 860px) { .sidebar nav { display: grid !important; grid-auto-flow: column; overflow-x: auto; width: 100%; order: 3; } .nav-item { white-space: nowrap; } .two { grid-template-columns: 1fr; } }
+
+[hidden] { display: none !important; }
+
+.fg{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}
+.field select,.field textarea,.field input{font:inherit;padding:12px 14px;border:1px solid #d8d2c4;border-radius:8px;background:#fff;min-height:46px;width:100%}
+.main .panel{margin-bottom:20px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #e6e0d2;text-align:start}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.inline-form{display:flex;gap:6px}
+@media(max-width:800px){.shell{grid-template-columns:1fr!important}.sidebar{position:static!important;height:auto!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const K='moarekh_db_v1',SS='moarekh_me',DAYS=['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+const db=Object.assign({users:[],groups:[],ann:[],sched:[],hw:[],subs:[],exams:[],videos:[],lec:[],rule:{warn:2,expel:4}},JSON.parse(localStorage.getItem(K)||'{}'));
+const save=()=>localStorage.setItem(K,JSON.stringify(db));
+const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Africa/Cairo'});
+const by=(a,id)=>a.find(x=>x.id===id),nm=(a,id)=>by(a,id)?.name||'—';
+const gs=g=>db.users.filter(u=>u.role==='student'&&u.group===g&&u.active);
+const hash=async(s,p)=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+p)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const mk=async(role,name,u,p,group='')=>{const salt=uid();return{id:uid(),u,name,role,salt,hash:await hash(salt,p),active:true,group}};
+let me=null,page='dash',msg='',fails=0,lock=0;
+const ROLE={admin:'أدمن',teacher:'مدرس',student:'طالب'};
+const NAV={admin:[['dash','لوحة التحكم'],['att','الحضور'],['disc','الانضباط'],['hw','الواجبات'],['grades','الدرجات'],['videos','الفيديوهات'],['ann','الإعلانات'],['sched','الجدول'],['students','الطلاب'],['teachers','المدرسون'],['groups','المجموعات']],
+teacher:[['dash','لوحة التحكم'],['att','الحضور'],['hw','الواجبات'],['grades','الدرجات'],['videos','الفيديوهات'],['ann','الإعلانات'],['sched','الجدول']],
+student:[['home','الرئيسية'],['shw','واجباتي'],['sgr','درجاتي'],['videos','الفيديوهات'],['ann','الإعلانات'],['attend','تسجيل حضور']]};
+const opt=(a,f=x=>x.name)=>a.map(x=>`<option value="${x.id}">${esc(f(x))}</option>`).join('');
+const fld=(n,l,t='text',o='',v='')=>`<div class="field"><label>${l}</label>${t==='select'?`<select name="${n}">${o}</select>`:t==='area'?`<textarea name="${n}" rows="3"></textarea>`:`<input name="${n}" type="${t}" value="${esc(v)}" required>`}</div>`;
+const tbl=(h,r)=>r.length?`<div class="table-wrap"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table></div>`:'<p class="empty">لا توجد بيانات</p>';
+const del=(c,id)=>`<button type="button" class="btn btn-ghost btn-sm" data-act="del:${c}:${id}">حذف</button>`;
+const list=a=>a.length?`<ul>${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="empty">لا يوجد</p>';
+const head=t=>`<header><h1>${t}</h1></header>`;
+const pct=s=>{const l=db.lec.filter(x=>x.groupId===s.group&&!x.open);return l.length?Math.round(l.filter(x=>x.present.includes(s.id)).length*100/l.length):null};
+const avg=a=>a.length?Math.round(a.reduce((x,y)=>x+y)*100/a.length):null;
+const scoresOf=sid=>db.exams.filter(e=>e.scores[sid]!=null&&e.max>0).map(e=>e.scores[sid]/e.max);
+
+const P={
+dash(){const t=today(),L=db.lec.filter(x=>x.date===t),pr=L.reduce((a,l)=>a+l.present.length,0),mem=L.reduce((a,l)=>a+gs(l.groupId).length,0),all=[];
+ db.exams.forEach(e=>Object.values(e.scores).forEach(v=>e.max>0&&all.push(v/e.max)));
+ const days=[...Array(7)].map((_,i)=>new Date(Date.now()-(6-i)*864e5).toLocaleDateString('en-CA',{timeZone:'Africa/Cairo'}));
+ const cnt=days.map(d=>db.lec.filter(l=>l.date===d).reduce((a,l)=>a+l.present.length,0)),mx=Math.max(...cnt,1),a=avg(all);
+ return `${head('لوحة التحكم')}<section class="today"><div><div class="num">${L.length}</div><div class="lbl">محاضرات اليوم</div></div><div><div class="num">${pr}</div><div class="lbl">حضروا اليوم</div></div><div><div class="num">${Math.max(mem-pr,0)}</div><div class="lbl">غابوا اليوم</div></div></section>
+ <section class="facts"><div><b>${db.users.filter(u=>u.role==='student').length}</b><span>طالب</span></div><div><b>${db.groups.length}</b><span>مجموعات</span></div><div><b>${db.hw.filter(h=>h.due>=t).length}</b><span>واجبات مفتوحة</span></div><div><b>${a==null?'—':a+'%'}</b><span>متوسط الدرجات</span></div></section>
+ <div class="grid2"><section class="panel"><h2>حضور الأسبوع</h2><div class="bars">${cnt.map((c,i)=>`<div class="bar"><b>${c}</b><i style="height:${c*100/mx}%"></i><span>${days[i].slice(5)}</span></div>`).join('')}</div></section>
+ <div style="display:grid;gap:20px"><section class="panel"><h2>آخر الإعلانات</h2>${list(db.ann.slice(-3).reverse().map(x=>x.t))}</section><section class="panel"><h2>آخر الفيديوهات</h2>${list(db.videos.slice(-3).reverse().map(x=>x.t))}</section></div></div>`},
+att(){return `${head('الحضور')}<form class="panel fg" data-f="start">${fld('g','المجموعة','select',opt(db.groups))}<button class="btn">بدء محاضرة</button></form>
+ ${db.lec.slice(-6).reverse().map(l=>`<section class="panel"><h2>${esc(nm(db.groups,l.groupId))} — ${l.date}</h2>${l.open?`<section class="today"><div><div class="num">${l.code}</div><div class="lbl">كود الحضور للطلاب</div></div></section><p><button class="btn btn-sm" data-act="end:${l.id}">إنهاء الحضور</button></p>`:'<span class="badge">انتهت</span>'}
+ ${tbl(['الطالب','الحالة'],gs(l.groupId).map(s=>[esc(s.name),`<button type="button" class="btn btn-ghost btn-sm" data-act="tog:${l.id}:${s.id}">${l.present.includes(s.id)?'حاضر ✓':'غائب'}</button>`]))}</section>`).join('')||'<p class="empty">ابدأ محاضرة من الزر فوق وأعطِ الكود للطلاب</p>'}`},
+disc(){const m=today().slice(0,7),{warn,expel}=db.rule;
+ const rows=db.users.filter(u=>u.role==='student').map(s=>{const ab=db.lec.filter(l=>l.groupId===s.group&&!l.open&&l.date.startsWith(m)&&!l.present.includes(s.id)).length;
+ return [esc(s.name),ab,!s.active?'مفصول':ab>=expel?'يستحق الفصل':ab>=warn?'إنذار':'منتظم',`<button type="button" class="btn btn-ghost btn-sm" data-act="act:${s.id}">${s.active?'فصل':'إرجاع'}</button>`]});
+ return `${head('الانضباط')}<form class="panel fg" data-f="rule">${fld('warn','إنذار بعد كم غياب','number','',warn)}${fld('expel','فصل بعد كم غياب','number','',expel)}<button class="btn">حفظ القاعدة</button></form>${tbl(['الطالب','غيابات الشهر','الحالة',''],rows)}`},
+hw(){return `${head('الواجبات')}<form class="panel fg" data-f="hw">${fld('g','المجموعة','select',opt(db.groups))}${fld('t','العنوان')}${fld('d','الوصف','area')}${fld('due','آخر موعد','date')}<button class="btn">نشر الواجب</button></form>
+ ${db.hw.slice().reverse().map(h=>{const ss=db.subs.filter(s=>s.hw===h.id);return `<section class="panel"><h2>${esc(h.t)}</h2><p>${esc(h.d)}</p><small>${esc(nm(db.groups,h.g))} — حتى ${esc(h.due)} — ${ss.length} تسليم</small>
+ ${tbl(['الطالب','الإجابة','الدرجة'],ss.map(s=>[esc(nm(db.users,s.stu)),esc(s.text),`<form class="inline-form" data-f="grade"><input type="hidden" name="id" value="${s.id}"><input name="v" type="number" step="any" value="${s.score??''}" style="width:80px"><button class="btn btn-sm">حفظ</button></form>`]))}${del('hw',h.id)}</section>`}).join('')}`},
+shw(){const hs=db.hw.filter(h=>h.g===me.group).reverse();return `${head('واجباتي')}${hs.map(h=>{const s=db.subs.find(x=>x.hw===h.id&&x.stu===me.id);return `<section class="panel"><h2>${esc(h.t)}</h2><p>${esc(h.d)}</p><small>حتى ${esc(h.due)}</small>
+ ${s?`<p>تم التسليم. الدرجة: ${s.score??'لم تُصحح بعد'}</p>`:`<form data-f="sub"><input type="hidden" name="h" value="${h.id}"><div class="field"><textarea name="text" rows="3" required></textarea></div><button class="btn btn-sm">تسليم الواجب</button></form>`}</section>`}).join('')||'<p class="empty">لا توجد واجبات</p>'}`},
+grades(){return `${head('الدرجات')}<form class="panel fg" data-f="exam">${fld('g','المجموعة','select',opt(db.groups))}${fld('t','اسم الاختبار')}${fld('max','الدرجة النهائية','number')}<button class="btn">إضافة اختبار</button></form>
+ ${db.exams.slice().reverse().map(e=>`<section class="panel"><h2>${esc(e.t)} (من ${e.max})</h2><small>${esc(nm(db.groups,e.g))}</small><form data-f="scores"><input type="hidden" name="id" value="${e.id}">${tbl(['الطالب','الدرجة'],gs(e.g).map(s=>[esc(s.name),`<input name="${s.id}" type="number" step="any" value="${e.scores[s.id]??''}" style="width:90px">`]))}<button class="btn btn-sm">حفظ الدرجات</button> ${del('exams',e.id)}</form></section>`).join('')}`},
+sgr(){const r=db.exams.filter(e=>e.scores[me.id]!=null).map(e=>[esc(e.t),`${e.scores[me.id]} / ${e.max}`]);
+ db.subs.filter(s=>s.stu===me.id&&s.score!=null).forEach(s=>r.push([esc('واجب: '+(by(db.hw,s.hw)?.t||'')),String(s.score)]));return `${head('درجاتي')}<section class="panel">${tbl(['البند','الدرجة'],r)}</section>`},
+videos(){const st=me.role!=='student',vs=db.videos.filter(v=>st||v.g===me.group);
+ return `${head('الفيديوهات')}${st?`<form class="panel fg" data-f="video">${fld('g','المجموعة','select',opt(db.groups))}${fld('t','العنوان')}${fld('url','الرابط (يوتيوب أو غيره)','url')}<button class="btn">إضافة</button></form>`:''}
+ <div class="vgrid">${vs.map(v=>`<section class="panel"><h2>${esc(v.t)}</h2><small>${esc(nm(db.groups,v.g))}</small><p><a class="link" target="_blank" rel="noopener noreferrer" href="${esc(v.url)}">مشاهدة الفيديو</a></p>${st?del('videos',v.id):''}</section>`).join('')||'<p class="empty">لا توجد فيديوهات</p>'}</div>`},
+ann(){const st=me.role!=='student',as=db.ann.filter(a=>st||!a.g||a.g===me.group).slice().reverse();
+ return `${head('الإعلانات')}${st?`<form class="panel fg" data-f="ann">${fld('g','المجموعة','select','<option value="">الكل</option>'+opt(db.groups))}${fld('t','العنوان')}${fld('b','النص','area')}<button class="btn">نشر الإعلان</button></form>`:''}
+ ${as.map(a=>`<section class="panel"><h2>${esc(a.t)}</h2><p>${esc(a.b)}</p><small>${a.d} — ${a.g?esc(nm(db.groups,a.g)):'الكل'}</small> ${st?del('ann',a.id):''}</section>`).join('')||'<p class="empty">لا توجد إعلانات</p>'}`},
+sched(){return `${head('الجدول')}<form class="panel fg" data-f="sched">${fld('g','المجموعة','select',opt(db.groups))}${fld('day','اليوم','select',DAYS.map((x,i)=>`<option value="${i}">${x}</option>`).join(''))}${fld('time','الساعة','time')}${fld('room','المكان')}<button class="btn">إضافة</button></form>
+ ${tbl(['المجموعة','اليوم','الساعة','المكان',''],db.sched.slice().sort((a,b)=>a.day-b.day).map(s=>[esc(nm(db.groups,s.g)),DAYS[s.day],esc(s.time),esc(s.room),del('sched',s.id)]))}`},
+students(){return `${head('الطلاب')}<form class="panel fg" data-f="stu">${fld('n','الاسم')}${fld('u','اسم المستخدم')}${fld('p','كلمة المرور (8+)','password')}${fld('g','المجموعة','select',opt(db.groups))}<button class="btn">إضافة طالب</button></form>
+ ${tbl(['الاسم','المستخدم','المجموعة','الحالة',''],db.users.filter(u=>u.role==='student').map(s=>[esc(s.name),esc(s.u),esc(nm(db.groups,s.group)),s.active?'نشط':'موقوف',`<button type="button" class="btn btn-ghost btn-sm" data-act="act:${s.id}">${s.active?'إيقاف':'تفعيل'}</button> <button type="button" class="btn btn-ghost btn-sm" data-act="rp:${s.id}">كلمة مرور</button> ${del('users',s.id)}`]))}`},
+teachers(){return `${head('المدرسون')}<form class="panel fg" data-f="tea">${fld('n','الاسم')}${fld('u','اسم المستخدم')}${fld('p','كلمة المرور (8+)','password')}<button class="btn">إضافة مدرس</button></form>
+ ${tbl(['الاسم','المستخدم',''],db.users.filter(u=>u.role==='teacher').map(s=>[esc(s.name),esc(s.u),`<button type="button" class="btn btn-ghost btn-sm" data-act="rp:${s.id}">كلمة مرور</button> ${del('users',s.id)}`]))}`},
+groups(){return `${head('المجموعات')}<form class="panel fg" data-f="group">${fld('n','اسم المجموعة')}<button class="btn">إضافة</button></form>${tbl(['المجموعة','عدد الطلاب',''],db.groups.map(g=>[esc(g.name),gs(g.id).length,del('groups',g.id)]))}`},
+home(){const t=today(),a=pct(me),v=avg(scoresOf(me.id)),open=db.hw.filter(h=>h.g===me.group&&h.due>=t&&!db.subs.some(s=>s.hw===h.id&&s.stu===me.id)).length;
+ return `${head('أهلاً '+esc(me.name))}<section class="facts"><div><b>${a==null?'—':a+'%'}</b><span>نسبة الحضور</span></div><div><b>${v==null?'—':v+'%'}</b><span>متوسط الدرجات</span></div><div><b>${open}</b><span>واجبات مطلوبة</span></div></section>
+ <div class="grid2"><section class="panel"><h2>مواعيدي</h2>${list(db.sched.filter(s=>s.g===me.group).sort((x,y)=>x.day-y.day).map(s=>`${DAYS[s.day]} ${s.time} — ${s.room}`))}</section><section class="panel"><h2>آخر الإعلانات</h2>${list(db.ann.filter(x=>!x.g||x.g===me.group).slice(-3).reverse().map(x=>x.t))}</section></div>`},
+attend(){return `${head('تسجيل حضور')}<form class="panel fg" data-f="attend">${fld('code','كود الحضور من المدرس','text')}<button class="btn">تسجيل</button></form>`},
+pw(){return `${head('تغيير كلمة المرور')}<form class="panel fg" data-f="pw">${fld('c','كلمة المرور الحالية','password')}${fld('n','الجديدة (8+)','password')}<button class="btn">حفظ</button></form>`}
+};
+
+function login(note=''){const first=!db.users.length;$('#root').innerHTML=`<main class="login"><section class="login-brand"><h1>المؤرخ</h1><p>منصة مستر شريف للدراسات الاجتماعية</p></section><section class="login-form-wrap"><form class="login-form" data-f="${first?'setup':'login'}"><h2>${first?'إعداد أول مرة':'تسجيل الدخول'}</h2>
+ ${first?'<p>اختر كلمة مرور لحسابي الأدمن sherif و ahmed.</p>':fld('u','اسم المستخدم','text')}${fld('p',first?'كلمة مرور الأدمن (8 حروف+)':'كلمة المرور','password')}<p class="error">${esc(note)}</p><button class="btn">${first?'إنشاء الحسابات':'دخول'}</button></form></section></main>`}
+function app(){$('#root').innerHTML=`<div class="shell"><aside class="sidebar"><div class="brand">المؤرخ</div><nav>${NAV[me.role].map(([k,t])=>`<a href="#" class="nav-item ${k===page?'active':''}" data-go="${k}">${t}</a>`).join('')}</nav>
+ <div class="sidebar-foot"><span>${esc(me.name)} — ${ROLE[me.role]}</span><a class="small" href="#" data-go="pw">تغيير كلمة المرور</a>${me.role==='admin'?'<a class="small" href="#" data-act="exp">نسخة احتياطية</a> <a class="small" href="#" data-act="imp">استرجاع نسخة</a>':''}<button class="btn btn-ghost btn-sm" data-act="out">خروج</button></div></aside>
+ <div class="main-wrap"><main class="main">${msg?`<div class="flash ok">${esc(msg)}</div>`:''}${(P[page]||P[NAV[me.role][0][0]])()}</main></div></div>`;msg=''}
+const done=m=>{msg=m;save();app()};
+async function addU(role,d){const u=d.u.trim().toLowerCase();if(db.users.some(x=>x.u===u))return done('اسم المستخدم موجود');if(d.p.length<8)return done('كلمة المرور 8 حروف على الأقل');db.users.push(await mk(role,d.n.trim(),u,d.p,d.g||''));done('تمت الإضافة')}
+const push=(c,o,m='تمت الإضافة')=>{db[c].push({id:uid(),...o});done(m)};
+
+const H={
+async login(d){if(lock>Date.now())return login('محاولات كتير، استنى نص دقيقة');const u=db.users.find(x=>x.u===d.u.trim().toLowerCase());
+ if(!u||u.hash!==await hash(u.salt,d.p)){if(++fails>=5){lock=Date.now()+3e4;fails=0}return login('اسم المستخدم أو كلمة المرور غلط')}
+ if(!u.active)return login('الحساب موقوف، كلم مستر شريف');fails=0;me=u;localStorage.setItem(SS,u.id);page=NAV[u.role][0][0];app()},
+async setup(d){if(d.p.length<8)return login('كلمة المرور 8 حروف على الأقل');db.users.push(await mk('admin','مستر شريف','sherif',d.p),await mk('admin','أحمد عبد الله','ahmed',d.p));save();login()},
+stu:d=>addU('student',d),tea:d=>addU('teacher',d),
+group:d=>push('groups',{name:d.n.trim()}),
+start(d){if(!d.g)return done('اعمل مجموعة الأول');db.lec.push({id:uid(),groupId:d.g,date:today(),code:String(crypto.getRandomValues(new Uint32Array(1))[0]%900000+100000),open:true,present:[]});done('بدأت المحاضرة')},
+rule(d){db.rule={warn:+d.warn,expel:+d.expel};done('تم الحفظ')},
+hw:d=>d.g?push('hw',{g:d.g,t:d.t,d:d.d,due:d.due},'تم نشر الواجب'):done('اعمل مجموعة الأول'),
+grade(d){by(db.subs,d.id).score=d.v===''?null:+d.v;done('تم حفظ الدرجة')},
+sub(d){const h=by(db.hw,d.h);if(h.due<today())return done('انتهى موعد التسليم');db.subs.push({id:uid(),hw:d.h,stu:me.id,text:d.text});done('تم التسليم')},
+exam:d=>d.g?push('exams',{g:d.g,t:d.t,max:+d.max,scores:{}}):done('اعمل مجموعة الأول'),
+scores(d){const e=by(db.exams,d.id);for(const[k,v]of Object.entries(d))if(k!=='id'&&v!=='')e.scores[k]=+v;done('تم حفظ الدرجات')},
+video(d){if(!/^https?:\/\//i.test(d.url))return done('الرابط لازم يبدأ بـ http');push('videos',{g:d.g,t:d.t,url:d.url})},
+ann:d=>push('ann',{g:d.g,t:d.t,b:d.b,d:today()},'تم نشر الإعلان'),
+sched:d=>d.g?push('sched',{g:d.g,day:+d.day,time:d.time,room:d.room}):done('اعمل مجموعة الأول'),
+attend(d){const l=db.lec.find(x=>x.open&&x.code===d.code.trim()&&x.groupId===me.group);if(!l)return done('الكود غلط أو الحضور مقفول');if(!l.present.includes(me.id))l.present.push(me.id);done('تم تسجيل حضورك')},
+async pw(d){if(me.hash!==await hash(me.salt,d.c))return done('كلمة المرور الحالية غلط');if(d.n.length<8)return done('الجديدة 8 حروف على الأقل');me.salt=uid();me.hash=await hash(me.salt,d.n);done('تم تغيير كلمة المرور')}
+};
+const A={
+out(){localStorage.removeItem(SS);me=null;login()},
+del(c,id){if(me.role==='student'||id===me.id||!confirm('متأكد من الحذف؟'))return;db[c]=db[c].filter(x=>x.id!==id);done('تم الحذف')},
+end(id){by(db.lec,id).open=false;done('تم إنهاء الحضور')},
+tog(l,s){const p=by(db.lec,l).present,i=p.indexOf(s);i<0?p.push(s):p.splice(i,1);done('')},
+act(id){const u=by(db.users,id);u.active=!u.active;done('تم التحديث')},
+async rp(id){const p=prompt('كلمة المرور الجديدة (8 حروف على الأقل)');if(!p||p.length<8)return;const u=by(db.users,id);u.salt=uid();u.hash=await hash(u.salt,p);done('تم تغيير كلمة المرور')},
+exp(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(db)],{type:'application/json'}));a.download='moarekh-backup-'+today()+'.json';a.click()},
+imp(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=async()=>{try{const d=JSON.parse(await i.files[0].text());if(!Array.isArray(d.users))throw 0;Object.assign(db,d);done('تم استرجاع النسخة')}catch{done('الملف غير صالح')}};i.click()}
+};
+document.addEventListener('click',async e=>{const a=e.target.closest('[data-go],[data-act]');if(!a)return;e.preventDefault();
+ if(a.dataset.go){page=a.dataset.go;return app()}const[k,x,y]=a.dataset.act.split(':');A[k]&&await A[k](x,y)});
+document.addEventListener('submit',async e=>{const f=e.target.closest('form[data-f]');if(!f)return;e.preventDefault();const h=H[f.dataset.f];h&&await h(Object.fromEntries(new FormData(f)))});
+me=by(db.users,localStorage.getItem(SS));me&&me.active?(page=NAV[me.role][0][0],app()):login();
+</script>
+</body>
+</html>
